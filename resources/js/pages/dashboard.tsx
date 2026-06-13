@@ -67,7 +67,7 @@ export default function Dashboard() {
                                 <p className="text-sm text-gray-500">
                                     Total Users
                                 </p>
-                                <h3 className="mt-2 text-3xl font-bold">250</h3>
+                                <h3 className="mt-2 text-3xl font-bold"></h3>
                             </div>
                             <Users className="h-10 w-10 text-blue-500" />
                         </div>
@@ -80,9 +80,7 @@ export default function Dashboard() {
                                 <p className="text-sm text-gray-500">
                                     Total Meals
                                 </p>
-                                <h3 className="mt-2 text-3xl font-bold">
-                                    1,250
-                                </h3>
+                                <h3 className="mt-2 text-3xl font-bold">0</h3>
                             </div>
                             <UtensilsCrossed className="h-10 w-10 text-green-500" />
                         </div>
@@ -95,9 +93,7 @@ export default function Dashboard() {
                                 <p className="text-sm text-gray-500">
                                     Total Cost
                                 </p>
-                                <h3 className="mt-2 text-3xl font-bold">
-                                    ৳45,000
-                                </h3>
+                                <h3 className="mt-2 text-3xl font-bold">৳0</h3>
                             </div>
                             <DollarSign className="h-10 w-10 text-purple-500" />
                         </div>
@@ -108,9 +104,7 @@ export default function Dashboard() {
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm text-gray-500">Paid</p>
-                                <h3 className="mt-2 text-3xl font-bold">
-                                    ৳38,500
-                                </h3>
+                                <h3 className="mt-2 text-3xl font-bold">৳0</h3>
                             </div>
                             <CheckCircle className="h-10 w-10 text-emerald-500" />
                         </div>
@@ -121,9 +115,7 @@ export default function Dashboard() {
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm text-gray-500">Pending</p>
-                                <h3 className="mt-2 text-3xl font-bold">
-                                    ৳6,500
-                                </h3>
+                                <h3 className="mt-2 text-3xl font-bold">৳0</h3>
                             </div>
                             <Clock className="h-10 w-10 text-orange-500" />
                         </div>
