@@ -11,8 +11,6 @@ class MealController extends Controller
 {
     public function index(Request $request)
     {
-        // $meals = Meal::with('user')->where('date', now()->toDateString())->latest()->get();
-        Log::info($request->all());
         $meals = Meal::with('user')
             ->when(
                 $request->date,

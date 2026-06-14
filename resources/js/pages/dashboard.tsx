@@ -5,14 +5,14 @@ import {
     DollarSign,
     CheckCircle,
     Clock,
-    SearchXIcon,
 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import cost from '@/data/cost';
 
 export default function Dashboard() {
     const { auth } = usePage().props as any;
     const { meals } = usePage().props;
+    const { cost } = usePage().props;
+    const { count } = usePage().props;
 
     const currentHour = new Date().getHours();
     const canSubmit = currentHour < 12;
@@ -45,13 +45,11 @@ export default function Dashboard() {
     useEffect(() => {
         setData({
             ...data,
-            breakfast_cost: data.breakfast * cost[day].breakfast,
-            lunch_cost: data.lunch * cost[day].lunch,
-            dinner_cost: data.dinner * cost[day].dinner,
+            breakfast_cost: data.breakfast * cost?.breakfast,
+            lunch_cost: data.lunch * cost?.lunch,
+            dinner_cost: data.dinner * cost?.dinner,
         });
     }, [data.breakfast, data.lunch, data.dinner, day]);
-
-    console.log(data);
 
     return (
         <>
@@ -67,7 +65,9 @@ export default function Dashboard() {
                                 <p className="text-sm text-gray-500">
                                     Total Users
                                 </p>
-                                <h3 className="mt-2 text-3xl font-bold"></h3>
+                                <h3 className="mt-2 text-3xl font-bold">
+                                    {count?.users}
+                                </h3>
                             </div>
                             <Users className="h-10 w-10 text-blue-500" />
                         </div>
@@ -80,7 +80,9 @@ export default function Dashboard() {
                                 <p className="text-sm text-gray-500">
                                     Total Meals
                                 </p>
-                                <h3 className="mt-2 text-3xl font-bold">0</h3>
+                                <h3 className="mt-2 text-3xl font-bold">
+                                    {count?.totalMeal}
+                                </h3>
                             </div>
                             <UtensilsCrossed className="h-10 w-10 text-green-500" />
                         </div>
@@ -91,11 +93,13 @@ export default function Dashboard() {
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm text-gray-500">
-                                    Total Cost
+                                    Pending Cost
                                 </p>
-                                <h3 className="mt-2 text-3xl font-bold">৳0</h3>
+                                <h3 className="mt-2 text-3xl font-bold">
+                                    ৳{count?.totalCost}
+                                </h3>
                             </div>
-                            <DollarSign className="h-10 w-10 text-purple-500" />
+                            <Clock className="h-10 w-10 text-purple-500" />
                         </div>
                     </div>
 
@@ -104,7 +108,9 @@ export default function Dashboard() {
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm text-gray-500">Paid</p>
-                                <h3 className="mt-2 text-3xl font-bold">৳0</h3>
+                                <h3 className="mt-2 text-3xl font-bold">
+                                    ৳{count?.paid}
+                                </h3>
                             </div>
                             <CheckCircle className="h-10 w-10 text-emerald-500" />
                         </div>
@@ -114,10 +120,16 @@ export default function Dashboard() {
                     <div className="rounded-xl border bg-white p-5 shadow-sm">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Pending</p>
-                                <h3 className="mt-2 text-3xl font-bold">৳0</h3>
+                                <p className="text-sm text-gray-500">
+                                    Total Cost
+                                </p>
+                                <h3 className="mt-2 text-3xl font-bold">
+                                    ৳
+                                    {Number(count?.totalCost) +
+                                        Number(count?.paid)}
+                                </h3>
                             </div>
-                            <Clock className="h-10 w-10 text-orange-500" />
+                            <DollarSign className="h-10 w-10 text-orange-500" />
                         </div>
                     </div>
                 </div>
@@ -197,7 +209,13 @@ export default function Dashboard() {
                                                     {meal.id}
                                                 </td>
                                                 <td className="px-6 py-4 font-medium">
-                                                    {meal.user?.name}
+                                                    {meal.user?.name}{' '}
+                                                    <span
+                                                        className={`ms-2 rounded-full ${meal.user?.user_type === 'regular' ? 'bg-green-300' : 'bg-amber-300'} px-1`}
+                                                    >
+                                                        {' '}
+                                                        {meal.user?.user_type}
+                                                    </span>
                                                 </td>
 
                                                 <td className="px-6 py-4 text-center">
@@ -268,14 +286,11 @@ export default function Dashboard() {
                                                         }
                                                         disabled={
                                                             meal.status ===
-                                                            'approved'
-                                                        }
-                                                        className={`rounded-lg px-4 py-2 text-sm font-medium text-white ${
+                                                                'approved' ||
                                                             meal.status ===
-                                                            'approved'
-                                                                ? 'cursor-not-allowed bg-green-300'
-                                                                : 'bg-green-600 hover:bg-green-700'
-                                                        }`}
+                                                                'paid'
+                                                        }
+                                                        className={`rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-black hover:bg-green-700 disabled:opacity-30`}
                                                     >
                                                         Approve
                                                     </button>
@@ -460,7 +475,6 @@ export default function Dashboard() {
                                         </tbody>
                                     </table>
                                 </div>
-
                                 {canSubmit ? (
                                     <button
                                         type="submit"
